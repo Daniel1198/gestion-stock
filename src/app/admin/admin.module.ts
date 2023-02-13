@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { PanelComponent } from './panel/panel.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoaderModule } from '../loader/loader.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    LoaderModule
   ]
 })
 export class AdminModule { }

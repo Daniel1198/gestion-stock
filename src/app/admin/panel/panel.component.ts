@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-panel',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent {
+  constructor(
+    private router: Router
+  ) {}
 
+  onSignOut() {
+    this.router.navigate(['/auth/login']);
+  }
 }

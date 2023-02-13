@@ -2,12 +2,12 @@
     <div class="py-2 px-3 rounded bg-light d-flex justify-content-between align-items-center">
         <h6 class="my-0 txt--blue-grey">-- En stock</h6>
         <div class="d-flex">
-            <button class="bt bt__outline--orange py-1 w-auto">
+            <button class="bt bt__outline--blue-grey py-1 w-auto" data-bs-toggle="modal" data-bs-target="#location">
                 <i class="fa fa-dollar-sign"></i>
                 <small class="ms-1">Mettre en location</small>
             </button>
 
-            <button class="bt bt__outline--green py-1 w-auto ms-3">
+            <button class="bt bt__outline--green py-1 w-auto ms-3" data-bs-toggle="modal" data-bs-target="#newProduct">
                 <i class="fa fa-plus-circle"></i>
                 <small class="ms-1">Nouveau produit</small>
             </button>
@@ -15,28 +15,31 @@
     </div>
 
     <div class="px-3 mt-1 row">
-        <div class="col-12 col-sm-3 p-3" *ngFor="let n of [].constructor(4)">
-            <div class="rounded d-flex row bg-info p-3">
+        <div class="col-12 col-sm-3 p-3" *ngFor="let n of products.constructor(isAll ? products.length : 4); let i = index;">
+            <div 
+                data-bs-toggle="modal" data-bs-target="#newProduct"
+                class="rounded d-flex row bg-light p-3 w3-hover-shadow" 
+                style="border-block: 2px solid rgba(196, 196, 196, 0.904); cursor: pointer;">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <h6>Produit</h6>
-                    <h3>-- 510 --</h3>
+                    <h6>Chaises</h6>
+                    <h3 class="txt--blue">-- 510 --</h3>
                 </div>
                 <div class="col-4"></div>
                 <div class="col-8 row">
-                    <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div class="col-12 d-flex justify-content-between align-items-center txt--green">
                         <small>Disponible</small>
-                        <small>- 410 -</small>
+                        <small class="fw-bold">- 410 -</small>
                     </div>
-                    <div class="col-12 d-flex justify-content-between align-items-center">
+                    <div class="col-12 d-flex justify-content-between align-items-center txt--red">
                         <small>Reservé</small>
-                        <small>- 100 -</small>
+                        <small class="fw-bold">- 100 -</small>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12 text-end">
-            <button class="py-1 bt bt__outline--disabled w-auto">
-                Plus d'infos
+            <button class="py-1 bt bt__outline--disabled w-auto" (click)="showAll()">
+                {{isAll ? 'Voir moins' : 'Voir tout'}}
             </button>
         </div>
     </div>
@@ -45,36 +48,50 @@
         <h6 class="my-0 txt--blue-grey">-- En location</h6>
         <div class="d-flex">
             <div class="bt bt__outline--blue-grey py-1 w-auto">
-                <small class="ms-1 fw-bold">Total : 52</small>
+                <small class="ms-1 fw-bold">Total : {{ data.length }}</small>
             </div>
         </div>
     </div>
 
     <div class="my-card__body border mt-3">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <div class="d-flex mr-3">
-                    Enregistrements par page :&nbsp;&nbsp;
-                    <select id="items-per-page" #value class="mr-3 mb-3" (change)="changeSize(value.value)">
-                        <option *ngFor="let size of tableSizes" [value]="size">{{ size }}</option>
+        <div class="d-flex justify-content-center align-items-end">
+            <div class="d-flex align-items-center">
+                <div class="form__group me-3">
+                    <label for="" class="form__label">Etat.</label>
+                    <select id="product" class="form__select w-100 custom">
+                        <option value="">--- En attente du retour ---</option>
+                        <option value="">--- Confirmation du retour ---</option>
+                        <option value="">--- Retourné(s) ---</option>
                     </select>
-                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
 
-                <p>Total : [ {{ data.length }} ]</p>
-            </div>
+                <div class="form__group me-3">
+                    <label for="" class="form__label">Produit.</label>
+                    <select id="product" class="form__select w-100 custom">
+                        <option value="">--- Sélectionner le produit ---</option>
+                    </select>
+                </div>
 
-            <div class="form__group w-50">
-                <input type="search" class="form__input w-100" placeholder="Tapez votre recherche">
+                <div class="form__group me-3">
+                    <label for="" class="form__label">Du.</label>
+                    <input type="date" class="form__input custom">
+                </div>
+
+                <div class="form__group">
+                    <label for="" class="form__label">Au.</label>
+                    <input type="date" class="form__input custom">
+                </div>
             </div>
         </div>
         
         <table class="my-card">
             <thead>
                 <tr>
-                    <td>Identifiant.</td>
-                    <td>Nom.</td>
-                    <td>Prénom(s).</td>
-                    <td>Fonction.</td>
+                    <td>Produit.</td>
+                    <td>Quantité louée.</td>
+                    <td>Date de location.</td>
+                    <td>Date de retour.</td>
+                    <td>Locataire.</td>
                     <td>Contact.</td>
                     <td></td>
                 </tr>
@@ -86,24 +103,25 @@
                     currentPage: page,
                     totalItems: count
                   };
-                  let i = index">
-                    <td>1</td>
-                    <td>Alexandre</td>
-                    <td>Mark</td>
-                    <td>Web Developer</td>
+                  let i = index" [ngStyle]="{ 'border-inline': i % 2 == 0 ? '2px solid red' : '2px solid orange' }">
+                    <td>Chaises</td>
+                    <td>510</td>
+                    <td>25/11/2022</td>
+                    <td>26/11/2022</td>
+                    <td>KONAN Stéphane</td>
                     <td>+225 05 86 75 74 85</td>
                     <td align="right">
                         <button class="bt bt__outline--blue py-1">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="bt bt__outline--red py-1 ms-3">
-                            <i class="fa fa-trash"></i>
+                        <button class="bt bt__outline--green py-1 ms-3">
+                            <i class="fa fa-check"></i>
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="px-2 d-flex mt-3 justify-content-center align-items-center" style="font-size: smaller;" *ngIf="data.length > 0">
+        <div class="px-2 d-flex mt-3 justify-content-between align-items-center" style="font-size: smaller;" *ngIf="data.length > 0">
             <div>
               <pagination-controls
                 previousLabel="Précédent"
@@ -112,6 +130,134 @@
               >
               </pagination-controls>
             </div>
+            
+            <div class="d-flex">
+                <div class="d-flex align-items-center">
+                    <select id="items-per-page" #value class="custom" (change)="changeSize(value.value)">
+                        <option *ngFor="let size of tableSizes" [value]="size">{{ size }}</option>
+                    </select>
+                    <label for="">/page</label>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Modal ajout produit -->
+<div class="modal fade" id="newProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg--blue-grey txt--white">
+          <h5 class="modal-title" id="staticBackdropLabel">-- Stock : nouveau produit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="message message--success bg-light w3-animate-opacity">
+                <i class="fa fa-check-circle me-2"></i>
+                Ceci est un message
+            </div>
+          <div class="row">
+            <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="product" class="form__label">Désignation du produit.</label>
+                    <input type="text" id="product" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="sku" class="form__label">SKU.</label>
+                    <input type="text" id="sku" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="quantite" class="form__label">Quantité.</label>
+                    <input type="number" id="quantite" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="fournisseur" class="form__label">Fournisseur.</label>
+                    <input type="text" id="fournisseur" class="form__input w-100">
+                </div>
+              </div>
+              <app-loader loaderType="ligne"></app-loader>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="bt bt__outline--red py-1" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" class="bt bt__outline--green py-1">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal mise en location -->
+<div class="modal fade" id="location" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg--blue-grey txt--white">
+          <h5 class="modal-title" id="staticBackdropLabel">-- Nouvelle location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="message message--error bg-light w3-animate-opacity">
+                <i class="fa fa-close me-2"></i>
+                Ceci est un message
+            </div>
+          <div class="row">
+            <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="product" class="form__label">Produit.</label>
+                    <select id="product" class="form__select w-100">
+                        <option value="">--- Sélectionner le produit ---</option>
+                    </select>
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="quantite" class="form__label">Quantité.</label>
+                    <input type="number" id="quantite" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="datelocation" class="form__label">Date de location.</label>
+                    <input type="date" id="datelocation" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="dateretour" class="form__label">Date de retour.</label>
+                    <input type="date" id="dateretour" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="locataire" class="form__label">Nom & Prénom(s) du locataire.</label>
+                    <input type="text" id="locataire" class="form__input w-100">
+                </div>
+              </div>
+              <div class="col-sm-6 col-12">
+                <div class="form__group">
+                    <label for="contact" class="form__label">Contact du locataire.</label>
+                    <input type="text" id="contact" class="form__input w-100">
+                </div>
+              </div>
+
+              <div class="bg-light w3-animate-opacity col-12 message">
+                <i class="fa fa-warning me-2"></i>
+                Il ne restera plus que <strong>14</strong> exemplaires de ce produit en stock.
+              </div>
+              <app-loader loaderType="ligne"></app-loader>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="bt bt__outline--red py-1" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" class="bt bt__outline--green py-1">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<app-loader loaderType="cercle" *ngIf="loading"></app-loader>

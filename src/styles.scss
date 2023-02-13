@@ -61,6 +61,28 @@ html, body {
     }
 }
 
+.message {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    margin-bottom: 1rem;
+
+    &--success {
+        border-left: 2px solid map-get($map: $colors, $key: "green");
+        color: map-get($map: $colors, $key: "green");
+    }
+
+    &--error {
+        border-left: 2px solid map-get($map: $colors, $key: "red");
+        color: map-get($map: $colors, $key: "red");
+    }
+
+    &--warning {
+        border-left: 2px solid map-get($map: $colors, $key: "orange");
+        color: map-get($map: $colors, $key: "orange");
+    }
+}
+
 // button styles
 .bt {
     padding: 0.5rem;
@@ -265,7 +287,8 @@ table {
     width: 100%;
 
     thead {
-        background-color: map-get($map: $colors, $key: "disabled");
+        background-color: map-get($map: $colors, $key: "dark");
+        color: map-get($map: $colors, $key: "white");
 
         tr td {
             padding: 0.5rem 1rem;
@@ -288,6 +311,7 @@ table {
 
     tbody {
         tr {
+            transition: all 0.3s;
             & td {
                 padding: 0.5rem 1rem;
             }
@@ -295,6 +319,29 @@ table {
             &:not(:last-child) td {
                 border-bottom: 1px solid rgba(214, 214, 214, 0.459);
             }
+
+            &:hover {
+                background-color: rgb(233, 243, 255);
+            }
         }
+    }
+}
+
+.custom {
+    background-color: rgb(248, 251, 255);
+    border-radius: 0.3rem;
+    border: none;
+    font-size: small;
+    color: map-get($map: $colors, $key: "blue-grey");
+
+    &:focus {
+        border: none;
+    }
+}
+
+.hover {
+    transition: 0.3s;
+    &:hover {
+        transform: scale(1.03);
     }
 }
