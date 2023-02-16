@@ -9,30 +9,30 @@
 
             <button class="bt bt__outline--green py-1 w-auto ms-3" data-bs-toggle="modal" data-bs-target="#newProduct">
                 <i class="fa fa-plus-circle"></i>
-                <small class="ms-1">Nouveau produit</small>
+                <small class="ms-1">Nouvel article</small>
             </button>
         </div>
     </div>
 
     <div class="px-3 mt-1 row">
-        <div class="col-12 col-sm-3 p-3" *ngFor="let n of products.constructor(isAll ? products.length : 4); let i = index;">
+        <div class="col-12 col-sm-3 p-3" *ngFor="let produit of products; let i = index;">
             <div 
                 data-bs-toggle="modal" data-bs-target="#newProduct"
                 class="rounded d-flex row bg-light p-3 w3-hover-shadow" 
                 style="border-block: 2px solid rgba(196, 196, 196, 0.904); cursor: pointer;">
                 <div class="col-12 d-flex justify-content-between align-items-center">
-                    <h6>Chaises</h6>
-                    <h3 class="txt--blue">-- 510 --</h3>
+                    <h6>{{ produit.name }}</h6>
+                    <h3 class="txt--blue">-- {{ produit.quantite }} --</h3>
                 </div>
                 <div class="col-4"></div>
                 <div class="col-8 row">
                     <div class="col-12 d-flex justify-content-between align-items-center txt--green">
                         <small>Disponible</small>
-                        <small class="fw-bold">- 410 -</small>
+                        <small class="fw-bold">- {{ produit.disponible }} -</small>
                     </div>
                     <div class="col-12 d-flex justify-content-between align-items-center txt--red">
                         <small>Reservé</small>
-                        <small class="fw-bold">- 100 -</small>
+                        <small class="fw-bold">- {{ produit.reserve }} -</small>
                     </div>
                 </div>
             </div>
@@ -66,9 +66,9 @@
                 </div>
 
                 <div class="form__group me-3">
-                    <label for="" class="form__label">Produit.</label>
+                    <label for="" class="form__label">Article.</label>
                     <select id="product" class="form__select w-100 custom">
-                        <option value="">--- Sélectionner le produit ---</option>
+                        <option value="">--- Sélectionner l'article ---</option>
                     </select>
                 </div>
 
@@ -87,7 +87,7 @@
         <table class="my-card">
             <thead>
                 <tr>
-                    <td>Produit.</td>
+                    <td>Article.</td>
                     <td>Quantité louée.</td>
                     <td>Date de location.</td>
                     <td>Date de retour.</td>
@@ -103,7 +103,7 @@
                     currentPage: page,
                     totalItems: count
                   };
-                  let i = index" [ngStyle]="{ 'border-inline': i % 2 == 0 ? '2px solid red' : '2px solid orange' }">
+                  let i = index" [ngStyle]="{ 'border-inline': i % 2 == 0 ? '2px solid red' : '2px solid rgba(95, 253, 95, 0.87)' }">
                     <td>Chaises</td>
                     <td>510</td>
                     <td>25/11/2022</td>
@@ -114,7 +114,7 @@
                         <button class="bt bt__outline--blue py-1">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="bt bt__outline--green py-1 ms-3">
+                        <button class="bt bt__outline--green py-1 ms-3" [disabled]="i % 2 != 0">
                             <i class="fa fa-check"></i>
                         </button>
                     </td>
@@ -148,7 +148,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg--blue-grey txt--white">
-          <h5 class="modal-title" id="staticBackdropLabel">-- Stock : nouveau produit</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">-- Stock : nouvel article</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -159,7 +159,7 @@
           <div class="row">
             <div class="col-sm-6 col-12">
                 <div class="form__group">
-                    <label for="product" class="form__label">Désignation du produit.</label>
+                    <label for="product" class="form__label">Désignation de l'article.</label>
                     <input type="text" id="product" class="form__input w-100">
                 </div>
               </div>
@@ -208,9 +208,9 @@
           <div class="row">
             <div class="col-sm-6 col-12">
                 <div class="form__group">
-                    <label for="product" class="form__label">Produit.</label>
+                    <label for="product" class="form__label">Article.</label>
                     <select id="product" class="form__select w-100">
-                        <option value="">--- Sélectionner le produit ---</option>
+                        <option value="">--- Sélectionner l'article ---</option>
                     </select>
                 </div>
               </div>

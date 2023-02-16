@@ -15,12 +15,19 @@ export class DashboardComponent implements OnInit {
   isAll: boolean = false;
   loading: boolean = true;
 
-  products: any[] = [].constructor(7);
+  products: any[] = [];
 
   ngOnInit(): void {
     setTimeout(() => {
       this.loading = false;
     }, 5000);
+
+    this.products = [
+      { name: 'Chaises', quantite: 510, disponible: 410, reserve: 100 },
+      { name: 'Bâches', quantite: 25, disponible: 11, reserve: 14 },
+      { name: 'Assiettes', quantite: 1213, disponible: 526, reserve: 687 },
+      { name: 'Tréteaux', quantite: 80, disponible: 60, reserve: 20 }
+    ]
   }
 
   showAll() {
